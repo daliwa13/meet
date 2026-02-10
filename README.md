@@ -1,5 +1,6 @@
 # Meet app
-Simple serverless, progressive web application (PWA) with React. Created using a test-driven development (TDD) technique. The application uses the Google Calendar API to fetch upcoming events.  
+Simple serverless, progressive web application (PWA) with React. Created using a test-driven development (TDD) technique. The application uses the Google Calendar API to fetch upcoming events.
+In order to use the app you must have a Google account.
 Availble online on Vite: https://meet-gilt-sigma.vercel.app/
 ## Tech Stack
 - JavaScript ES6
