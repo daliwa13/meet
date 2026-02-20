@@ -1,13 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import CitySearch from '../components/CitySearch';
+import App from '../App';
 import { extractLocations, getEvents } from '../api';
 
+// Unit tests for CitySearch component
 describe('<CitySearch /> component', () => {
   let CitySearchComponent;
   beforeEach(() => {
-    CitySearchComponent = render(<CitySearch />);
+    CitySearchComponent = render(<CitySearch allLocations={[]} />);
   });
 
   test('renders text input', () => {
@@ -30,7 +33,7 @@ describe('<CitySearch /> component', () => {
     expect(suggestionList).toHaveClass('suggestions');
   });
 
-  test('updates list of suggestions correctly when the user types in the city textbox', async () => {
+  test('updates list of suggestions correctly when the user types in existing city in the city textbox', async () => {
     const user = userEvent.setup();
     const allEvents = await getEvents();
     const allLocations = extractLocations(allEvents);
@@ -57,7 +60,7 @@ describe('<CitySearch /> component', () => {
     const user = userEvent.setup();
     const allEvents = await getEvents();
     const allLocations = extractLocations(allEvents);
-    CitySearchComponent.rerender(<CitySearch allLocations={allLocations} />);
+    CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }} />);
 
     const cityTextBox = CitySearchComponent.queryByRole('textbox');
     await user.type(cityTextBox, "Berlin");
@@ -70,3 +73,21 @@ describe('<CitySearch /> component', () => {
     expect(cityTextBox).toHaveValue(BerlinGermanySuggestion.textContent);
   });
 })
+
+// Integration tests for CitySearch component
+describe('<CitySearch /> integration', () => {
+  test('Renders suggestions list when the app is rendered.', async () => {
+    const AppComponent = render(<App />);
+    const AppDom = AppComponent.container.firstChild;
+
+    const CitySearchDom = AppDom.querySelector('#city-search');
+    const cityTextBox = within(CitySearchDom).queryByRole('textbox');
+    await userEvent.click(cityTextBox);
+
+    const allEvents = await getEvents();
+    const allLocations = extractLocations(allEvents);
+
+    const suggestionListItems = within(CitySearchDom).queryAllByRole('listitem');
+    expect(suggestionListItems).toHaveLength(allLocations.length + 1);
+  });
+});
