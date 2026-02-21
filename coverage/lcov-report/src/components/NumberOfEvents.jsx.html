@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/16</span>
+                <span class='fraction'>17/20</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">85% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/16</span>
+                <span class='fraction'>17/20</span>
             </div>
         
             
@@ -107,36 +107,44 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">44x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">44x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,40 +163,44 @@
 import React from 'react';
 import { useState } from 'react';
 &nbsp;
-const NumberOfEvents = () =&gt; {
-  const [numberOfEvents, setNumberOfEvents] = useState(32);
+const NumberOfEvents = ({ numberOfEvents, setNumberOfEvents }) =&gt; {
+  const [query, setQuery] = useState("32"); // Local state to manage the input field value
 &nbsp;
   const handleChange = (e) =&gt; {
     const stringValue = e.target.value
 &nbsp;
     if (stringValue === "") {
       setNumberOfEvents("");  // Allow the input to be temporarily empty while the user is typing
+      setQuery("");  // Update the local query state to reflect the empty input
       return;
     }
     const numValue = parseInt(stringValue); // Convert the string input to a number
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if (isNaN(numValue)) {
 <span class="cstat-no" title="statement not covered" >      setNumberOfEvents(""); </span> // If the input is not a valid number, reset it to an empty string
+<span class="cstat-no" title="statement not covered" >      setQuery(""); </span> // Update the local query state to reflect the invalid input
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
     if (numValue &lt; 1) {
       setNumberOfEvents(1);  // Force minimum value of 1
+      setQuery("1");  // Update the local query state to reflect the minimum value
       return;
     }
 &nbsp;
     setNumberOfEvents(numValue);  // Update the state with the valid number input
+    setQuery(numValue.toString());  // Update the local query state to reflect the valid input
   };
 &nbsp;
   return (
     &lt;div className="number-of-events"&gt;
-      &lt;label htmlFor="number-of-events-input"&gt;Number of Events:&lt;/label&gt;
+      &lt;label htmlFor="number-of-events-input"&gt;Number of Events: &lt;/label&gt;
       &lt;input
         type="number"
         id="number-of-events-input"
         className="number-of-events-input"
         min="1"
-        value={numberOfEvents}
+        value={query}
         onChange={handleChange}
       /&gt;
     &lt;/div&gt;
@@ -202,7 +214,7 @@ export default NumberOfEvents;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-20T13:25:18.208Z
+                at 2026-02-21T10:41:50.216Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

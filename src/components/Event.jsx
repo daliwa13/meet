@@ -8,14 +8,14 @@ const Event = ({ event }) => {
   const eventLocation = event?.location || "";
 
   return (
-    <li>
+    <li className="event">
       <h2>{eventTitle}</h2>
       <p>{eventDate}</p>
       <p>{eventLocation}</p>
       <button onClick={() => setShowDetails(!showDetails)}>{showDetails ? "Hide Details" : "Show Details"}</button>
       
       {showDetails && (
-        <div>
+        <div className="event-details">
           <h3>About Event:</h3>
           <p>{event?.description}</p>
           <p>Organizer: {event?.organizer?.email}</p>

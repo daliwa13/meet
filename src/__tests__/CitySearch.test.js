@@ -72,6 +72,21 @@ describe('<CitySearch /> component', () => {
 
     expect(cityTextBox).toHaveValue(BerlinGermanySuggestion.textContent);
   });
+
+  test('handles null or undefined allLocations gracefully', async () => {
+    const user = userEvent.setup();
+    CitySearchComponent.rerender(<CitySearch allLocations={null} />);
+
+    const cityTextBox = CitySearchComponent.queryByRole('textbox');
+    await user.type(cityTextBox, "Berlin");
+
+    // Component should not crash and suggestions should be empty
+    const suggestionList = CitySearchComponent.queryByRole('list');
+    expect(suggestionList).toBeInTheDocument();
+    const items = CitySearchComponent.queryAllByRole('listitem');
+    // Should only have the "See all cities" option, no filtered results
+    expect(items.length).toBeLessThanOrEqual(1);
+  });
 })
 
 // Integration tests for CitySearch component

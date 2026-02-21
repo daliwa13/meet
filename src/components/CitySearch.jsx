@@ -24,7 +24,7 @@ const CitySearch = ({ allLocations, setCurrentCity }) => {
   };
 
   useEffect(() => {
-    setSuggestions(allLocations);
+    setSuggestions(allLocations || []); // Use empty array if allLocations is null/undefined
   }, [`${allLocations}`]);
 
   return (
