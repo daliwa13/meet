@@ -6,7 +6,10 @@ import NumberOfEvents from '../components/NumberOfEvents';
 describe('<NumberOfEvents /> component', () => {
   let NumberOfEventsComponent;
   beforeEach(() => {
-    NumberOfEventsComponent = render(<NumberOfEvents numberOfEvents={32} />);
+    NumberOfEventsComponent = render(<NumberOfEvents 
+      numberOfEvents={32} 
+      setNumberOfEvents={() => { }} 
+      setErrorAlert={() => { }} />);
   });
 
   test('renders number input', () => {
@@ -23,8 +26,9 @@ describe('<NumberOfEvents /> component', () => {
     const user = userEvent.setup();
     const numberInput = NumberOfEventsComponent.queryByRole('spinbutton');
     NumberOfEventsComponent.rerender(<NumberOfEvents 
-      numberOfEvents={32} 
-      setNumberOfEvents={() => { }} />); // Rerender the component with dummy setNumberOfEvents function to allow input changes
+      numberOfEvents={32}
+      setNumberOfEvents={() => { }}
+      setErrorAlert={() => { }} />); 
     await user.type(numberInput, '{backspace}{backspace}10'); // Simulate user removing current number and typing "10" in the input field
     expect(numberInput).toHaveValue(10);
   });
@@ -33,12 +37,13 @@ describe('<NumberOfEvents /> component', () => {
     const user = userEvent.setup();
     const numberInput = NumberOfEventsComponent.queryByRole('spinbutton');
     NumberOfEventsComponent.rerender(<NumberOfEvents 
-      numberOfEvents={32} 
-      setNumberOfEvents={() => { }} />); // Rerender the component with dummy setNumberOfEvents function to allow input changes
+      numberOfEvents={32}
+      setNumberOfEvents={() => { }}
+      setErrorAlert={() => { }} />);
     await user.type(numberInput, "{backspace}{backspace}0"); //testing "0" input
-    expect(numberInput).toHaveValue(1);
+    expect(numberInput).toHaveValue(null);
     await user.type(numberInput, "{backspace}-5"); // testing negative number input
-    expect(numberInput).toHaveValue(1);
+    expect(numberInput).toHaveValue(null);
   });
 
   test('input rejects non-numeric characters', async () => {
@@ -46,7 +51,8 @@ describe('<NumberOfEvents /> component', () => {
     const numberInput = NumberOfEventsComponent.queryByRole('spinbutton');
     NumberOfEventsComponent.rerender(<NumberOfEvents 
       numberOfEvents={"32"} // Testing non-numeric input
-      setNumberOfEvents={() => { }} />); // Rerender the component with dummy setNumberOfEvents function to allow input changes
+      setNumberOfEvents={() => { }}
+      setErrorAlert={() => { }} />);
       await user.type(numberInput, "{backspace}{backspace}abc");
       expect(numberInput).toHaveValue(null);
   });
@@ -56,7 +62,8 @@ describe('<NumberOfEvents /> component', () => {
     const numberInput = NumberOfEventsComponent.queryByRole('spinbutton');
     NumberOfEventsComponent.rerender(<NumberOfEvents 
       numberOfEvents={32} 
-      setNumberOfEvents={() => { }} />); // Rerender the component with dummy setNumberOfEvents function to allow input changes
+      setNumberOfEvents={() => { }}
+      setErrorAlert={() => { }} />);
     await user.type(numberInput, "{backspace}{backspace}");
     expect(numberInput).toHaveValue(null);
   });

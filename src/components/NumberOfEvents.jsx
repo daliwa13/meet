@@ -2,31 +2,25 @@
 import React from 'react';
 import { useState } from 'react';
 
-const NumberOfEvents = ({ numberOfEvents, setNumberOfEvents }) => {
+const NumberOfEvents = ({ numberOfEvents, setNumberOfEvents, setErrorAlert }) => {
   const [query, setQuery] = useState("32"); // Local state to manage the input field value
 
   const handleChange = (e) => {
     const stringValue = e.target.value
+    let infoText;
 
-    if (stringValue === "") {
-      setNumberOfEvents("");  // Allow the input to be temporarily empty while the user is typing
-      setQuery("");  // Update the local query state to reflect the empty input
-      return;
-    }
     const numValue = parseInt(stringValue); // Convert the string input to a number
 
-    if (isNaN(numValue)) {
-      setNumberOfEvents("");  // If the input is not a valid number, reset it to an empty string
+    if (numValue < 1 || Number.isNaN(numValue)) {
+      infoText = "Only possitive numbers are allowed. Please enter a valid number."
+      setErrorAlert(infoText);
       setQuery("");  // Update the local query state to reflect the invalid input
+      setNumberOfEvents("");  // Clear the number of events in the parent state to prevent displaying events when input is invalid
       return;
     }
-
-    if (numValue < 1) {
-      setNumberOfEvents(1);  // Force minimum value of 1
-      setQuery("1");  // Update the local query state to reflect the minimum value
-      return;
-    }
-
+    
+    infoText = "";
+    setErrorAlert(infoText);
     setNumberOfEvents(numValue);  // Update the state with the valid number input
     setQuery(numValue.toString());  // Update the local query state to reflect the valid input
   };
