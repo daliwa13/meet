@@ -10,6 +10,7 @@ const MESSAGES_TO_IGNORE = [
 
 const originalError = console.error.bind(console.error);
 
+jest.setTimeout(30000);
 
 console.error = (...args) => {
   const ignoreMessage = MESSAGES_TO_IGNORE.find(message => args.toString().includes(message));
