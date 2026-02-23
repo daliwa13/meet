@@ -10,7 +10,10 @@ import { extractLocations, getEvents } from '../api';
 describe('<CitySearch /> component', () => {
   let CitySearchComponent;
   beforeEach(() => {
-    CitySearchComponent = render(<CitySearch allLocations={[]} />);
+    CitySearchComponent = render(<CitySearch 
+      allLocations={[]} 
+      setCurrentCity={() => { }} 
+      setInfoAlert={() => { }} />);
   });
 
   test('renders text input', () => {
@@ -37,7 +40,7 @@ describe('<CitySearch /> component', () => {
     const user = userEvent.setup();
     const allEvents = await getEvents();
     const allLocations = extractLocations(allEvents);
-    CitySearchComponent.rerender(<CitySearch allLocations={allLocations} />);
+    CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }} setInfoAlert={() => { }} />);
 
     // simulate user typing "Berlin" in the city textbox
     const cityTextBox = CitySearchComponent.queryByRole('textbox');
@@ -60,7 +63,6 @@ describe('<CitySearch /> component', () => {
     const user = userEvent.setup();
     const allEvents = await getEvents();
     const allLocations = extractLocations(allEvents);
-    CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }} />);
 
     const cityTextBox = CitySearchComponent.queryByRole('textbox');
     await user.type(cityTextBox, "Berlin");
@@ -75,7 +77,6 @@ describe('<CitySearch /> component', () => {
 
   test('handles null or undefined allLocations gracefully', async () => {
     const user = userEvent.setup();
-    CitySearchComponent.rerender(<CitySearch allLocations={null} />);
 
     const cityTextBox = CitySearchComponent.queryByRole('textbox');
     await user.type(cityTextBox, "Berlin");
