@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ScatterChart,
   Scatter,
@@ -45,7 +45,7 @@ const CityEventsChart = ({ allLocations, events }) => {
     />
       <YAxis type="number" dataKey = "count" name = "Number of events" />
         <Tooltip cursor={ { strokeDasharray: '3 3' } } />
-          < Scatter name = "A school" data = { data } fill = "#8884d8" />
+          < Scatter name = "A school" data = { data } fill = "#7fc05c" />
             </ScatterChart>
             </ResponsiveContainer>
   );
